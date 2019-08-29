@@ -10,8 +10,21 @@
 -author("iiwaasnet").
 
 %% API
--export([run/1]).
+-export([run/1,
+        run1/1]).
 
+run1(Number) ->
+  max_prime_factor(Number, 2).
+
+max_prime_factor(1, Factor) ->
+  Factor;
+max_prime_factor(Number, Factor) ->
+  case Number rem Factor of
+    0 -> max_prime_factor(Number div Factor, Factor);
+    _ -> max_prime_factor(Number, Factor + 1)
+  end.
+
+%%======================================================
 run(Number) ->
   UpperBound = 100,
   Primes = prime_gen(2, UpperBound),
