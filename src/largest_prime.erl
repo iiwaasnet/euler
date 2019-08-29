@@ -28,13 +28,13 @@ max_prime_factor(Number, Factor) ->
 run(Number) ->
   UpperBound = 100,
   Primes = prime_gen(2, UpperBound),
-  get_prime_factors(Number, {Primes,  UpperBound}, []).
+  lists:max(get_prime_factors(Number, {Primes,  UpperBound}, [])).
 
 get_prime_factors(1, _, Acc) ->
   Acc;
 get_prime_factors(Number, {Primes, UpperBound}, Acc) ->
   case get_lowest_prime(Number, Primes) of
-    {none, none} ->
+    {none, expand} ->
       NewUpperBound = UpperBound + 100,
       NewPrimes = lists:merge(Primes, prime_gen(UpperBound, NewUpperBound)),
       get_prime_factors(Number, {NewPrimes, NewUpperBound}, Acc);
@@ -48,7 +48,7 @@ get_lowest_prime(Number, [Prime|T]) ->
     _ -> get_lowest_prime(Number, T)
   end;
 get_lowest_prime(_, []) ->
-  {none, none}.
+  {none, expand}.
 
 prime_gen(From, To) ->
   filter_primes(lists:seq(From, To), [], To).
