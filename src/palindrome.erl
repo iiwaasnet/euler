@@ -10,8 +10,17 @@
 -author("sivasenko").
 
 %% API
--export([run/1]).
+-export([run/1,
+  run/0]).
 
+run() ->
+  lists:max([X * Y ||
+    X <- lists:seq(100, 999),
+    Y <- lists:seq(100, 999),
+    lists:prefix(integer_to_list(X * Y), lists:reverse(integer_to_list(X * Y)))
+  ]).
+
+%%===========================================
 run(Arity) ->
   largest_palindrome_products(trunc(math:pow(10, Arity)) - 1, Arity).
 
