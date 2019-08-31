@@ -10,21 +10,8 @@
 -author("iiwaasnet").
 
 %% API
--export([run/1,
-  run1/1]).
+-export([run/1]).
 
-run1(Number) ->
-  Primes = get_all_primes(lists:seq(1, Number)).
-
-calc([H|T], Acc) ->
-  case Acc rem H of
-    0 ->
-      Acc;
-    _ ->
-
-  end
-
-%%==========================================
 run(Number) ->
   product(get_lcm_primes(lists:seq(1, Number), [])).
 
@@ -73,19 +60,3 @@ product([], Acc) ->
   Acc;
 product([H|T], Acc) ->
   product(T, Acc * H).
-
-
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-
-lcm = 1,
-
-1 rem 1 == 0 -> 1
-1 rem 2 != 0 -> 1 * 2
-2 rem 3 != 0 -> 2 * 3
-6 rem (2 * 2) != 0 -> 6 * 2
-12 rem (5) != 0 -> 12 * 5
-60 rem (2 * 3) == 0 -> 60
-60 rem 7 != 0 -> 7 * 60
-420 rem (2 * 2 * 2) == 0 -> 2 * 420
-840 rem (3 * 3) != 0 -> 840 * 3
-2520 rem (2 * 5) == 0 -> 2520
