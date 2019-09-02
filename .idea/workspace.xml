@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd21d97-03b7-409e-b96a-ef7c07bc03cd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/largest_grid_product.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/largest_grid_product.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/smallest_multiple.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/smallest_multiple.erl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,9 +24,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
-  </component>
-  <component name="NamedScopeManager">
-    <scope name="Erlang source files" pattern="!file:src/*.beam" />
   </component>
   <component name="ProjectId" id="1Q1BuDlHYR7YFe21lYtNNwzVgQD" />
   <component name="ProjectLevelVcsManager">
