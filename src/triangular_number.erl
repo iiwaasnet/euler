@@ -13,8 +13,8 @@
 -export([run/1]).
 
 run(DivisorsCount) ->
-  {Triangle, LastNumber} = get_near_triangular(1683649886205200161770644927289158038643634289508352),
-  get_triangle(Triangle, LastNumber, DivisorsCount).
+  %%{Triangle, LastNumber} = get_near_triangular(1683649886205200161770644927289158038643634289508352),
+  get_triangle(1, 1, DivisorsCount).
 
 get_near_triangular(Number) ->
   get_near_triangular(1, 1, Number).
