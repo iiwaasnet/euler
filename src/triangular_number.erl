@@ -13,7 +13,21 @@
 -export([run/1]).
 
 run(DivisorsCount) ->
-  get_triangle(1, 1, DivisorsCount).
+  {Triangle, LastNumber} = get_near_triangular(1683649886205200161770644927289158038643634289508352),
+  get_triangle(Triangle, LastNumber, DivisorsCount).
+
+get_near_triangular(Number) ->
+  get_near_triangular(1, 1, Number).
+
+get_near_triangular(Triangle, LastNumber, Boundary) ->
+  if
+    Triangle >= Boundary ->
+      {Triangle, LastNumber};
+    Triangle < Boundary ->
+      NextNumber = LastNumber + 1,
+      %%erlang:display({Triangle, LastNumber}),
+      get_near_triangular(Triangle + NextNumber, NextNumber, Boundary)
+  end.
 
 get_triangle(Triangle, LastNumber, DivisorsCount) ->
   Divisors = [X || X <- gen_divisors_seq(Triangle), Triangle rem X =:= 0],

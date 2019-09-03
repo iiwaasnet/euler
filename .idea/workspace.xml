@@ -26,7 +26,7 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="NamedScopeManager">
-    <scope name="Erlang source files" pattern="!file:src/*.beam" />
+    <scope name="Erlang source files" pattern="file:src/*.erl" />
   </component>
   <component name="ProjectId" id="1Q1BuDlHYR7YFe21lYtNNwzVgQD" />
   <component name="ProjectLevelVcsManager">
