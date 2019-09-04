@@ -10,53 +10,29 @@
 -author("iiwaasnet").
 
 %% API
--export([run/1]).
+-export([run/1,
+  get_triangle/3]).
 
-run(DivisorsCount) ->
-  %%{Triangle, LastNumber} = get_near_triangular(1683649886205200161770644927289158038643634289508352),
-  get_triangle(1, 1, DivisorsCount).
+run(MaxDivisorsCount) ->
+  {Microsec, Res} = timer:tc(triangular_number, get_triangle, [1, 1, MaxDivisorsCount]),
+  {Microsec / 1000000, Res}.
+  %%get_triangle(1, 1, MaxDivisorsCount).
 
-get_near_triangular(Number) ->
-  get_near_triangular(1, 1, Number).
-
-get_near_triangular(Triangle, LastNumber, Boundary) ->
+get_triangle(Triangle, LastNumber, MaxDivisorsCount) ->
+  DivisorsCount = get_divisors_count(Triangle),
   if
-    Triangle >= Boundary ->
-      {Triangle, LastNumber};
-    Triangle < Boundary ->
+    DivisorsCount >= MaxDivisorsCount ->
+      {Triangle, {divisors_count, DivisorsCount}};
+    DivisorsCount < MaxDivisorsCount ->
       NextNumber = LastNumber + 1,
-      %%erlang:display({Triangle, LastNumber}),
-      get_near_triangular(Triangle + NextNumber, NextNumber, Boundary)
+      get_triangle(Triangle + NextNumber, NextNumber, MaxDivisorsCount)
   end.
 
-get_triangle(Triangle, LastNumber, DivisorsCount) ->
-  Divisors = [X || X <- gen_divisors_seq(Triangle), Triangle rem X =:= 0],
-  if
-    length(Divisors) >= DivisorsCount ->
-      {Triangle, {divisors_count, length(Divisors)}, Divisors};
-    true ->
-      %%erlang:display({Triangle, {divisors_count, length(Divisors)}}),
-      NextNumber = LastNumber + 1,
-      get_triangle(Triangle + NextNumber, NextNumber, DivisorsCount)
-  end.
-
-gen_divisors_seq(Until) ->
-  case Until rem 2 of
-    0 ->
-      [X || X <- lists:seq(1, Until)];
-    _ ->
-      [X || X <- lists:seq(1, Until), Until rem 2 /= 0]
-  end.
-
-
-get_triangle(Seq, DivisorsNumber) ->
-  Triangle = lists:foldl(fun(E, A) -> A + E end, 0, Seq),
-  Divisors = [X || X <- lists:seq(1, Triangle), Triangle rem X =:= 0],
-  if
-    length(Divisors) >= DivisorsNumber ->
-      {Triangle, {divisors_count, length(Divisors)}, Divisors};
-    true ->
-      %%erlang:display({Triangle, {divisors_count, length(Divisors)}}),
-      get_triangle(lists:seq(1, length(Seq) + 1), DivisorsNumber)
-  end.
-
+get_divisors_count(Triangle) ->
+  get_divisors_count(Triangle, 1, 0).
+get_divisors_count(Triangle, Divisor, Count) when Divisor > Triangle ->
+  Count;
+get_divisors_count(Triangle, Divisor, Count) when Triangle rem Divisor =:= 0 ->
+  get_divisors_count(Triangle, Divisor + 1, Count + 1);
+get_divisors_count(Triangle, Divisor, Count) when Triangle rem Divisor /= 0 ->
+  get_divisors_count(Triangle, Divisor + 1, Count).
