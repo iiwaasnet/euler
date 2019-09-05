@@ -16,7 +16,6 @@
 run(MaxDivisorsCount) ->
   {Microsec, Res} = timer:tc(triangular_number, get_triangle, [1, 1, MaxDivisorsCount]),
   {Microsec / 1000000, Res}.
-  %%get_triangle(1, 1, MaxDivisorsCount).
 
 get_triangle(Triangle, LastNumber, MaxDivisorsCount) ->
   DivisorsCount = get_divisors_count(Triangle),
@@ -29,10 +28,19 @@ get_triangle(Triangle, LastNumber, MaxDivisorsCount) ->
   end.
 
 get_divisors_count(Triangle) ->
-  get_divisors_count(Triangle, 1, 0).
-get_divisors_count(Triangle, Divisor, Count) when Divisor > Triangle ->
-  Count;
-get_divisors_count(Triangle, Divisor, Count) when Triangle rem Divisor =:= 0 ->
-  get_divisors_count(Triangle, Divisor + 1, Count + 1);
-get_divisors_count(Triangle, Divisor, Count) when Triangle rem Divisor /= 0 ->
-  get_divisors_count(Triangle, Divisor + 1, Count).
+  get_divisors_count(Triangle, 1, trunc(math:sqrt(Triangle)), 0).
+
+get_divisors_count(_, CurrentDivisor, HighestDivisor, Acc) when CurrentDivisor > HighestDivisor ->
+  Acc;
+get_divisors_count(Triangle, CurrentDivisor, HighestDivisor, Acc) when CurrentDivisor =< HighestDivisor ->
+  case Triangle rem CurrentDivisor of
+    0 ->
+      case Triangle div CurrentDivisor of
+        CurrentDivisor ->
+          get_divisors_count(Triangle, CurrentDivisor + 1, HighestDivisor, Acc + 1);
+        _ ->
+          get_divisors_count(Triangle, CurrentDivisor + 1, HighestDivisor, Acc + 2)
+      end;
+    _ ->
+      get_divisors_count(Triangle, CurrentDivisor + 1, HighestDivisor, Acc)
+  end.
