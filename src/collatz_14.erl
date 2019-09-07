@@ -14,32 +14,38 @@
 -export([run/1]).
 
 run(MaxValue) ->
-  LongestRoute = lists:max(find_all_routes(MaxValue)),
-  _ = io:fwrite("Lenght: ~B StartValue: ~B~n", [LongestRoute#route.length, LongestRoute#route.start_value]).
+  erlang:display(erlang:localtime()),
+  LongestRoute = find_longest_route(MaxValue),
+  erlang:display(erlang:localtime()),
+  io:fwrite("Lenght: ~B StartValue: ~B~n", [LongestRoute#route.length, LongestRoute#route.start_value]).
 
-find_all_routes(MaxValue) ->
-  find_all_routes(2, MaxValue, dict:new(), []).
+find_longest_route(MaxValue) ->
+  find_longest_route((MaxValue - 1) div 3, MaxValue, #{}, #route{start_value = 1}).
 
-find_all_routes(RouteStartValue, MaxValue, _, Acc) when RouteStartValue >= MaxValue ->
-  Acc;
-find_all_routes(RouteStartValue, MaxValue, RoutesCache, Acc) when RouteStartValue < MaxValue ->
+find_longest_route(RouteStartValue, MaxValue, _, LongestRoute) when RouteStartValue >= MaxValue ->
+  LongestRoute;
+find_longest_route(RouteStartValue, MaxValue, RoutesCache, LongestRoute) when RouteStartValue < MaxValue ->
   {Cache, Route} = find_route_length(#route{start_value = RouteStartValue}, RouteStartValue, RoutesCache),
-  find_all_routes(
+  find_longest_route(
     RouteStartValue + 1,
     MaxValue,
     Cache,
-    [Route | Acc]
+    take_longest_route(Route, LongestRoute)
   ).
+
+take_longest_route(#route{start_value = _, length = LLength} = Left, #route{start_value = _, length = RLength} = _) when LLength > RLength ->
+  Left;
+take_longest_route(_, Right) ->
+  Right.
 
 find_route_length(Route, CurrentValue, RoutesCache) when CurrentValue =:= 1 ->
   {
-    dict:append(Route#route.start_value, Route#route.length, RoutesCache),
+    RoutesCache#{Route#route.start_value => Route#route.length},
     Route
   };
 find_route_length(#route{start_value = _, length = Len} = Route, CurrentValue, RoutesCache) when CurrentValue > 1 ->
-  case dict:find(CurrentValue, RoutesCache) of
-    {ok, [CachedRouteLength | _]} ->
-      %%io:fwrite("cache hit at: ~B~n", [CurrentValue]),
+  case RoutesCache of
+    {CurrentValue, CachedRouteLength} ->
       find_route_length(Route#route{length = Len + CachedRouteLength - 1}, 1, RoutesCache);
     _ ->
       case CurrentValue rem 2 of

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd21d97-03b7-409e-b96a-ef7c07bc03cd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/collatz_14.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/collatz_14.erl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
